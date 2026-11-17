@@ -126,6 +126,8 @@ An app with a backend registered as a public client puts tokens in the browser f
 
 The custom claims an Environment maps onto a token are added in order within a size limit; the ones past it are left off and the token carries `custom_claims_overflow: true`. Code that reads `claims.plan` and treats its absence as "no plan" then denies a Pro customer whose claim did not fit. Keep every custom claim optional, treat an absent one as "not set", and when `custom_claims_overflow` is true read the value from the API (the identity's or organization's metadata) instead of the token.
 
+That read is for an app that already holds an API key. An app that only verifies tokens needs none, and must not start needing one for this: create the client only when `CANOPY_API_KEY` is set, never make the key required at startup, and without it treat an overflowed claim as "not set". An app that refuses to start without a key it was never given fails every request, not just the rare overflowed one.
+
 ## A token used as a database
 
 Mapping a dozen metadata keys onto the access token to save a request puts a few kilobytes in every `Authorization` header and runs into the claims' size limit, where the later claims are silently left off. Map the few facts a request must decide on (`plan`, a tenant's tier), keep names you cannot change (the reserved ones are refused on save), and read the rest from the API when a request needs it.

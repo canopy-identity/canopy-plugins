@@ -1,6 +1,6 @@
 {
   "name": "canopy",
-  "version": "1.1.0",
+  "version": "0.2.0",
   "description": "Integrate Canopy authentication and hierarchical authorization into an application, and administer a Canopy Account through Canopy's MCP servers.",
   "author": {
     "name": "Canopy Identity Inc."

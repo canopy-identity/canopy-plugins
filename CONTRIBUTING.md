@@ -14,7 +14,7 @@ npm run verify
 - Work branches come off `development` and merge back into it by pull request.
 - A release is a pull request from `development` into `main`, merged with a merge commit, never a squash.
 - Merging to `main` releases the version in `plugins/canopy/.claude-plugin/plugin.json`: the release workflow tags `v<version>` and creates a GitHub release from its `CHANGELOG.md` entry, then asks Canopy to run its skill harness against it.
-- Every change to a plugin raises its version (`1.0.1` for wording, `1.1.0` for a new skill or command) and adds the matching `## <version>` entry to `CHANGELOG.md`.
+- Every change to a plugin raises its version (`0.2.1` for wording, `0.3.0` for a new skill or command; the plugin stays below 1.0 until Canopy launches) and adds the matching `## <version>` entry to `CHANGELOG.md`.
 
 ## When the SDK releases
 

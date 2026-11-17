@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "canopy": {
+      "type": "http",
+      "url": "https://auth.canopy-io.com/mcp/v1"
+    },
+    "canopy-docs": {
+      "type": "http",
+      "url": "https://canopy-io.com/mcp"
+    }
+  }
+}

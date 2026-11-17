@@ -1,8 +1,10 @@
 {
   "name": "canopy",
-  "version": "1.0.1",
-  "description": "Integrate Canopy authentication and hierarchical authorization into an application, with Canopy's SDKs or its API.",
-  "author": { "name": "Canopy Identity Inc." },
+  "version": "0.2.0",
+  "description": "Integrate Canopy authentication and hierarchical authorization into an application, and administer a Canopy Account through Canopy's MCP servers.",
+  "author": {
+    "name": "Canopy Identity Inc."
+  },
   "homepage": "https://canopy-io.com/docs/ai-integration",
   "repository": "https://github.com/canopy-identity/canopy-plugins",
   "license": "MIT"

@@ -1,12 +1,14 @@
 {
   "name": "canopy",
-  "owner": { "name": "Canopy Identity Inc." },
+  "owner": {
+    "name": "Canopy Identity Inc."
+  },
   "description": "Canopy's plugins for Claude Code: integrating Canopy into an application, and working with a Canopy Account.",
   "plugins": [
     {
       "name": "canopy",
       "source": "./plugins/canopy",
-      "description": "Integrate Canopy authentication and hierarchical authorization into an application, with Canopy's SDKs or its API."
+      "description": "Integrate Canopy authentication and hierarchical authorization into an application, and administer a Canopy Account through Canopy's MCP servers."
     }
   ]
 }

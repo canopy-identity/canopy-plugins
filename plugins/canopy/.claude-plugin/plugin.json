@@ -1,8 +1,9 @@
 {
   "name": "canopy",
-  "description": "Integrate Canopy authentication and hierarchical authorization with @canopy-io/node and @canopy-io/nestjs.",
+  "version": "1.0.0",
+  "description": "Integrate Canopy authentication and hierarchical authorization into an application, with Canopy's SDKs or its API.",
   "author": { "name": "Canopy Identity Inc." },
-  "homepage": "https://canopy-io.com/docs",
-  "repository": "https://github.com/canopy-identity/canopy-javascript",
+  "homepage": "https://canopy-io.com/docs/ai-integration",
+  "repository": "https://github.com/canopy-identity/canopy-plugins",
   "license": "MIT"
 }

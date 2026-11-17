@@ -69,4 +69,4 @@ Never guess an endpoint path, a claim name or an error code. Look it up, or ask 
 
 ## How this skill is checked
 
-Every TypeScript block in the references compiles against the packages it ships with (`npm run check:skill` in this repository), and the Canopy repository assembles the blocks of `nestjs.md`, `express.md` and `node.md` into running applications against a live Canopy on every pull request and release, asserting the statuses they claim. A block that stops being true fails there before it ships.
+Every TypeScript block in the references compiles against the published SDK packages (`npm run check:skill` in `canopy-identity/canopy-plugins`), and the Canopy repository assembles the blocks of `nestjs.md`, `express.md` and `node.md` into running applications against a live Canopy on every pull request and release, asserting the statuses they claim. A block that stops being true fails there before it ships.

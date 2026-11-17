@@ -1,0 +1,78 @@
+name: Release
+
+# A merge to main releases the plugin version in plugin.json, once: a tag and
+# a GitHub release carrying its changelog entry. Claude Code updates an
+# installed plugin from main by its version.
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.22.0
+          cache: npm
+      - run: npm ci
+      - run: npm run verify
+
+      - name: Find the version to release
+        id: version
+        run: |
+          version="$(node -p "require('./plugins/canopy/.claude-plugin/plugin.json').version")"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+          if git rev-parse -q --verify "refs/tags/v$version" > /dev/null; then
+            echo "pending=false" >> "$GITHUB_OUTPUT"
+            echo "v$version is already released."
+          else
+            echo "pending=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Tag and release
+        if: steps.version.outputs.pending == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          awk -v heading="## $VERSION" '
+            $0 == heading { found = 1; next }
+            found && /^## / { exit }
+            found { print }
+          ' CHANGELOG.md > notes.md
+
+          git tag "v$VERSION"
+          git push origin "v$VERSION"
+          gh release create "v$VERSION" --title "canopy $VERSION" --notes-file notes.md
+
+      # The skill's copy in canopy, its docs page and its harness follow the
+      # released plugin. Without the token the harness's weekly schedule
+      # picks the release up instead.
+      - name: Run the skill harness in canopy against the released plugin
+        if: steps.version.outputs.pending == 'true'
+        env:
+          CANOPY_DISPATCH_TOKEN: ${{ secrets.CANOPY_DISPATCH_TOKEN }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          if [ -z "$CANOPY_DISPATCH_TOKEN" ]; then
+            echo "CANOPY_DISPATCH_TOKEN is not set; the harness's schedule will cover this release."
+            exit 0
+          fi
+
+          curl -fsS -X POST "https://api.github.com/repos/canopy-identity/canopy/dispatches" \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $CANOPY_DISPATCH_TOKEN" \
+            -d "{\"event_type\":\"plugin-published\",\"client_payload\":{\"version\":\"$VERSION\"}}"
+          echo "Dispatched plugin-published to canopy-identity/canopy for $VERSION"

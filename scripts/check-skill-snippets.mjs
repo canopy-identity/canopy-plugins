@@ -1,14 +1,14 @@
-// Type-checks every TypeScript block in the agent skill against the built
-// packages, so the code an assistant copies from the skill compiles against
-// the SDK it ships with. A block that stops compiling fails CI, which is how
-// the skill and the packages stay in step.
+// Type-checks every TypeScript block in the plugin's skills against the
+// published Canopy SDK packages pinned in package.json, so the code an
+// assistant copies from a skill compiles against the SDK a customer installs.
+// A block that stops compiling fails CI.
 //
-// Each ```ts block is written out as its own module and compiled with the
-// packages' own strict settings. A block must therefore be complete: its
-// imports, and a `declare` for anything it uses but does not define.
+// Each ```ts block is written out as its own module and compiled with
+// strict settings. A block must therefore be complete: its imports, and a
+// `declare` for anything it uses but does not define.
 //
-// Run after `npm run build`, because the packages resolve through their
-// published `types` entries.
+// When a new SDK version changes what the skill may use, raise the pins in
+// package.json in the same pull request as the skill change.
 
 import { execFileSync } from "node:child_process";
 import {
@@ -84,9 +84,26 @@ snippets.forEach((snippet, index) => {
   origins.set(name, snippet);
 });
 
-const base = JSON.parse(
-  readFileSync(join(root, "packages/nestjs/tsconfig.json"), "utf8"),
-);
+/** The settings the SDK packages are built with, which a customer's project shares. */
+const base = {
+  compilerOptions: {
+    target: "ES2022",
+    module: "ESNext",
+    moduleResolution: "bundler",
+    types: ["node"],
+    strict: true,
+    noImplicitOverride: true,
+    noFallthroughCasesInSwitch: true,
+    verbatimModuleSyntax: true,
+    isolatedModules: true,
+    experimentalDecorators: true,
+    emitDecoratorMetadata: true,
+    noEmit: true,
+    skipLibCheck: true,
+    esModuleInterop: true,
+    forceConsistentCasingInFileNames: true,
+  },
+};
 
 writeFileSync(
   join(outDir, "tsconfig.json"),
@@ -94,10 +111,10 @@ writeFileSync(
     {
       compilerOptions: {
         ...base.compilerOptions,
-        // A consumer's project, not this repository's: `strict`, without the
-        // two extra flags the packages hold themselves to, which application
-        // code rarely enables. A snippet that needed them would not compile
-        // in the projects it is copied into.
+        // A consumer's project: `strict`, without the two extra flags the
+        // packages hold themselves to, which application code rarely
+        // enables. A snippet that needed them would not compile in the
+        // projects it is copied into.
         exactOptionalPropertyTypes: false,
         noUncheckedIndexedAccess: false,
         lib: ["ES2022", "DOM"],

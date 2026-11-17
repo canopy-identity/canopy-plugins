@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main, development]
+  pull_request:
+
+# Read-only: the job checks out and checks; it writes nothing back.
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Format, release entry, skill snippets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.22.0
+          cache: npm
+      - run: npm ci
+      - name: Formatting
+        run: npm run format:check
+      # The plugin's version has its own changelog entry.
+      - run: npm run check:release
+      # Every TypeScript block in the skills compiles against the published
+      # SDK packages pinned in package.json.
+      - run: npm run check:skill

@@ -1,0 +1,6 @@
+node_modules
+*.log
+.DS_Store
+
+# Written and removed by scripts/check-skill-snippets.mjs.
+.skill-snippets

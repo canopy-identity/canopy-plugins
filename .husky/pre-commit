@@ -1,0 +1,15 @@
+# Every step is a gate.
+set -e
+
+# `npm run format` rewrites the working tree, not the index, so what was
+# already staged is staged again, and nothing else.
+staged=$(git diff --cached --name-only --diff-filter=ACM)
+
+npm run format
+
+if [ -n "$staged" ]; then
+  printf '%s\n' "$staged" | tr '\n' '\0' | xargs -0 git add --
+fi
+
+npm run check:release
+npm run check:skill

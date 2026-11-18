@@ -8,7 +8,7 @@
     {
       "name": "canopy",
       "source": "./plugins/canopy",
-      "description": "Integrate Canopy authentication and hierarchical authorization into an application, and administer a Canopy Account through Canopy's MCP servers."
+      "description": "Integrate Canopy authentication and hierarchical authorization into an application, administer a Canopy Account, and match Canopy's hosted pages to your design, through Canopy's MCP servers."
     }
   ]
 }

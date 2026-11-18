@@ -1,20 +1,20 @@
-// Every tool the administration skill names is a tool the account MCP server
+// Every account MCP tool a skill or command names is a tool the server
 // offers. The server offers one tool per public API operation, named by its
-// operationId, so each `Api…Controller_…` name in the skill must be an
+// operationId, so each `Api…Controller_…` name in the plugin must be an
 // operationId in Canopy's published API spec; a name ending in `_*` must match
 // at least one. A renamed or removed operation fails here instead of sending
 // an assistant after a tool that does not exist.
 //
 // Usage:
-//   node scripts/check-admin-tools.mjs
-//   node scripts/check-admin-tools.mjs --spec <file or URL>
+//   node scripts/check-account-tools.mjs
+//   node scripts/check-account-tools.mjs --spec <file or URL>
 
 import { readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const skill = join(root, "plugins/canopy/skills/canopy-admin");
+const plugin = join(root, "plugins/canopy");
 const args = process.argv.slice(2);
 const specIndex = args.indexOf("--spec");
 const source =
@@ -36,9 +36,9 @@ for (const item of Object.values(spec.paths ?? {})) {
   }
 }
 
-const files = readdirSync(skill, { recursive: true })
+const files = readdirSync(plugin, { recursive: true })
   .filter((file) => file.endsWith(".md"))
-  .map((file) => join(skill, file));
+  .map((file) => join(plugin, file));
 const missing = [];
 
 let named = 0;
@@ -66,7 +66,7 @@ if (operations.size === 0) {
 
 if (missing.length > 0) {
   console.error(
-    `The administration skill names tools the account MCP server does not offer (${source}):`,
+    `The plugin names tools the account MCP server does not offer (${source}):`,
   );
 
   for (const name of missing) {
@@ -77,5 +77,5 @@ if (missing.length > 0) {
 }
 
 console.log(
-  `confirmed: the ${named} tool names in the administration skill are operations in ${source}`,
+  `confirmed: the ${named} account tool names in the plugin are operations in ${source}`,
 );

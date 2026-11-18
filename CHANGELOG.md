@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.0
+
+The branding skill and `/canopy:brand-from-site` now set the logo, favicon and pictures. Canopy's image fields take only an image uploaded to Canopy, so the skill uploads each one from its public address with `ApiBrandingController_uploadImage`, puts the address Canopy answers in the field, and previews it before saving. It knows each kind's limits and says a refusal's reason. An image with no public address (an inline SVG logo, a local file, a screenshot) is left for the user to upload in the Console.
+
 ## 0.3.0
 
 A new skill, `canopy-branding`, and a command, `/canopy:brand-from-site <url, folder or screenshots>`, make Canopy's hosted pages look like a website or a design: Claude reads the design, maps it to the branding settings first and to the published `--hp-*` tokens only where no setting reaches, previews the sign-in page and opens it for you, and saves only on your word. `references/hosted-css.md` lists every published token, class and page name.

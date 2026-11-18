@@ -7,7 +7,7 @@ npm install
 npm run verify
 ```
 
-`verify` checks formatting, that the plugin's version has a changelog entry, that every TypeScript block in the skills compiles against the published SDK packages pinned in `package.json`, and that every account MCP tool the administration skill names is an operation in Canopy's published API spec.
+`verify` checks formatting, that the plugin's version has a changelog entry, that every TypeScript block in the skills compiles against the published SDK packages pinned in `package.json`, that every account MCP tool a skill or command names is an operation in Canopy's published API spec, and that the branding skill's CSS reference matches the tokens and classes Canopy publishes.
 
 ## Branches and releases
 

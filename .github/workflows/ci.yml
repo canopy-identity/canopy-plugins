@@ -31,6 +31,9 @@ jobs:
       # Every TypeScript block in the skills compiles against the published
       # SDK packages pinned in package.json.
       - run: npm run check:skill
-      # Every tool the administration skill names is an operation in
+      # Every account MCP tool a skill or command names is an operation in
       # Canopy's published API spec, so the account MCP server offers it.
-      - run: npm run check:admin-tools
+      - run: npm run check:account-tools
+      # The branding skill's CSS reference matches the published --hp-*
+      # tokens and hp-* classes, both ways.
+      - run: npm run check:hosted-css

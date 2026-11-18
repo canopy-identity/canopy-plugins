@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0
+
+A new skill, `canopy-branding`, and a command, `/canopy:brand-from-site <url, folder or screenshots>`, make Canopy's hosted pages look like a website or a design: Claude reads the design, maps it to the branding settings first and to the published `--hp-*` tokens only where no setting reaches, previews the sign-in page and opens it for you, and saves only on your word. `references/hosted-css.md` lists every published token, class and page name.
+
+`check:account-tools` (formerly `check:admin-tools`) now checks every account MCP tool any skill or command names, and `check:hosted-css` keeps the branding skill's CSS reference in step with the tokens and classes Canopy publishes, both ways.
+
 ## 0.2.0
 
 Installing the plugin connects Canopy's two MCP servers: the account server (`canopy`, `https://auth.canopy-io.com/mcp/v1`), which signs you in through your browser on first use and acts as you in the Environment you approve, and the docs server (`canopy-docs`, `https://canopy-io.com/mcp`).

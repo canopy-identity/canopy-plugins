@@ -16,8 +16,9 @@
     "check:release": "node scripts/check-release.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "verify": "npm run format:check && npm run check:release && npm run check:skill && npm run check:admin-tools",
-    "check:admin-tools": "node scripts/check-admin-tools.mjs"
+    "verify": "npm run format:check && npm run check:release && npm run check:skill && npm run check:account-tools && npm run check:hosted-css",
+    "check:account-tools": "node scripts/check-account-tools.mjs",
+    "check:hosted-css": "node scripts/check-hosted-css.mjs"
   },
   "volta": {
     "node": "24.22.0",

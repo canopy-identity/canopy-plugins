@@ -15,7 +15,7 @@ Canopy's plugins for [Claude Code](https://claude.com/claude-code). Canopy handl
 
 **`canopy-admin`**: the agent skill for administering a Canopy Account through the account MCP server: which tool does which job, telling apart the operations that read alike at the Account, Environment and organization levels, the parameters to get right, and previewing a change before it removes or replaces something.
 
-**`canopy-branding`** and the **`/canopy:brand-from-site`** command: make Canopy's hosted sign-in pages look like your website or a design. Claude reads the design, maps it onto the branding settings (and the published `--hp-*` tokens where no setting reaches), previews the sign-in page for you, and saves only when you agree:
+**`canopy-branding`** and the **`/canopy:brand-from-site`** command: make Canopy's hosted sign-in pages look like your website or a design. Claude reads the design, maps it onto the branding settings (and the published `--hp-*` tokens where no setting reaches), uploads its logo, favicon and pictures to Canopy, previews the sign-in page for you, and saves only when you agree:
 
 ```
 /canopy:brand-from-site https://example.com

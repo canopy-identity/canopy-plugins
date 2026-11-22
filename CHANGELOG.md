@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.0
+
+The skill follows `@canopy-io/node` 0.26.0, whose `LocalAuthorizer` revalidates a subject's grants with their `ETag` instead of re-reading them. `references/node.md` and `references/nestjs.md` say a refresh Canopy answers `304` costs one small request, so the 60-second default stays and the cache time is never raised to save calls.
+
 ## 0.4.0
 
 The branding skill and `/canopy:brand-from-site` now set the logo, favicon and pictures. Canopy's image fields take only an image uploaded to Canopy, so the skill uploads each one from its public address with `ApiBrandingController_uploadImage`, puts the address Canopy answers in the field, and previews it before saving. It knows each kind's limits and says a refusal's reason. An image with no public address (an inline SVG logo, a local file, a screenshot) is left for the user to upload in the Console.

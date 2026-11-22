@@ -214,7 +214,7 @@ export class ExportsController {
 - `500`: the API key was rejected, a scoped key lacks `identity.view` or `hierarchy.view`, or the node is not in the hierarchy the key can read. The integration is broken; alert on it.
 - `CanopyTokenGuard`: `401` for any rejected token (the reason is on `error.cause`, for logs), `503` when the signing keys cannot be fetched.
 
-Answers are cached for at most 60 seconds (`authorizationTtlMs`, up to 300 000). That is how long a revoked permission can keep working. For one high-value operation, ask the API directly:
+Answers are cached for at most 60 seconds (`authorizationTtlMs`, up to 300 000). That is how long a revoked permission can keep working. A refresh revalidates the held grants and hierarchy, and Canopy answers `304` when nothing changed, so never raise `authorizationTtlMs` to save calls. For one high-value operation, ask the API directly:
 
 ```ts
 import { Injectable } from "@nestjs/common";

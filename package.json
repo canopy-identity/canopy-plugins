@@ -25,7 +25,7 @@
     "npm": "11.19.1"
   },
   "devDependencies": {
-    "@canopy-io/browser": "0.3.0",
+    "@canopy-io/browser": "0.4.0",
     "@canopy-io/nestjs": "0.9.5",
     "@canopy-io/node": "0.26.0",
     "@nestjs/common": "11.2.7",

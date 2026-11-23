@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.0
+
+The skill follows `@canopy-io/browser` 0.4.0. `references/spa.md` teaches the permission checks a single-page app makes to decide what a page shows: ask for the `permissions` scope, `checkPermission` and `checkPermissions` (answered from the token where it can say, one request per tick otherwise, held until the token changes), `getPermissionState` and `listPermissions`, and never to re-check on a timer or add a cache of its own. It also covers `start({ resume: false })` for public pages, a resume coming back to the page it left, and `subscribe` with `getSnapshot` for a framework to render from. Its code compiles against `@canopy-io/browser` 0.4.0.
+
 ## 0.5.0
 
 The skill follows `@canopy-io/node` 0.26.0, whose `LocalAuthorizer` revalidates a subject's grants with their `ETag` instead of re-reading them. `references/node.md` and `references/nestjs.md` say a refresh Canopy answers `304` costs one small request, so the 60-second default stays and the cache time is never raised to save calls.

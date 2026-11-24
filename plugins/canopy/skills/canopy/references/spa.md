@@ -102,7 +102,7 @@ exportButton.hidden = !canExport;
 
 ## Rendering from a framework
 
-In React, use `@canopy-io/react` ([react.md](react.md)) rather than wiring this by hand. Elsewhere:
+In React, use `@canopy-io/react` ([react.md](react.md)), and in Angular `@canopy-io/angular` ([angular.md](angular.md)), rather than wiring this by hand. Elsewhere:
 
 `subscribe(listener)` calls `listener` when the session changes or a permission answer arrives, and returns the function that stops it. `getSnapshot()` returns `{ status, claims, error }`, the same object until something changes: `status` is `loading` until `start()` settles, then `signed-in` or `signed-out`. That is the shape `useSyncExternalStore` and Angular signals read. The client touches no browser global until it is used, so it can be created during server rendering; call `start()` only in the browser.
 

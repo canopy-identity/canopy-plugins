@@ -25,6 +25,10 @@
     "npm": "11.19.1"
   },
   "devDependencies": {
+    "@angular/common": "21.2.26",
+    "@angular/core": "21.2.26",
+    "@angular/router": "21.2.26",
+    "@canopy-io/angular": "0.1.0",
     "@canopy-io/browser": "0.5.0",
     "@canopy-io/nestjs": "0.9.5",
     "@canopy-io/node": "0.26.0",

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.0
+
+The skill follows `@canopy-io/angular` 0.1.0. A new reference, `references/angular.md`, teaches an Angular single-page app `provideCanopy` with `apiOrigins` and `canopyAuthInterceptor`, `canopyAuthGuard` on private routes, the `CanopyAuth` signals with `*canopySignedIn` and `*canopySignedOut`, `*canopyCan` and `CanopyPermissions.can()` for what renders, and `organizationList()` with `switchOrganization()` for a switcher. `SKILL.md`, `spa.md`, `choosing.md` and `mistakes.md` name the Angular package beside the React one. The skill's code compiles against `@canopy-io/angular` 0.1.0 and Angular 21.
+
 ## 0.7.0
 
 The skill follows `@canopy-io/react` 0.1.0 and `@canopy-io/browser` 0.5.0. A new reference, `references/react.md`, teaches a React single-page app the provider, the hooks and the components: `<CanopyProvider>` with the router's navigate as `onRedirectCallback`, `useAuth`, `useUser`, `useAccessToken` on every call to the API, `<Can>` and `usePermission` for what renders, and `useOrganization` with `useOrganizationList` for an organization switcher. `references/spa.md` adds `listOrganizations()`. `SKILL.md` gains a rule and `choosing.md` a section: front-end permission checks decide what renders and never replace the backend's check, and `mistakes.md` names the two ways to get that wrong. Both references now say the `permissions` scope works only on a client registered with it (a client with the default scopes refuses it with `invalid_scope`, and every sign-in fails), and `mistakes.md` names it. `check:skill` now compiles ```tsx blocks too, and the skill's code compiles against `@canopy-io/react` 0.1.0.

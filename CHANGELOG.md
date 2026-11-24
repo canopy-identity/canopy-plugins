@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.0
+
+The skill follows `@canopy-io/react` 0.1.0 and `@canopy-io/browser` 0.5.0. A new reference, `references/react.md`, teaches a React single-page app the provider, the hooks and the components: `<CanopyProvider>` with the router's navigate as `onRedirectCallback`, `useAuth`, `useUser`, `useAccessToken` on every call to the API, `<Can>` and `usePermission` for what renders, and `useOrganization` with `useOrganizationList` for an organization switcher. `references/spa.md` adds `listOrganizations()`. `SKILL.md` gains a rule and `choosing.md` a section: front-end permission checks decide what renders and never replace the backend's check, and `mistakes.md` names the two ways to get that wrong. `check:skill` now compiles ```tsx blocks too, and the skill's code compiles against `@canopy-io/react` 0.1.0.
+
 ## 0.6.0
 
 The skill follows `@canopy-io/browser` 0.4.0. `references/spa.md` teaches the permission checks a single-page app makes to decide what a page shows: ask for the `permissions` scope, `checkPermission` and `checkPermissions` (answered from the token where it can say, one request per tick otherwise, held until the token changes), `getPermissionState` and `listPermissions`, and never to re-check on a timer or add a cache of its own. It also covers `start({ resume: false })` for public pages, a resume coming back to the page it left, and `subscribe` with `getSnapshot` for a framework to render from. Its code compiles against `@canopy-io/browser` 0.4.0.

@@ -106,6 +106,14 @@ Storing a `web` refresh token in `localStorage` (it is an httpOnly cookie for a 
 
 Allowed web origins are each Environment's own list. A site listed only on the development Environment is a stranger to production: its Direct API calls answer `403 auth.origin_not_allowed`, and a public client's `/oauth/token` answers `403 access_denied` (`@canopy-io/browser` raises `CanopyAuthError` with that code). An empty list admits no other site. List each origin on the Environment its build talks to, and do not answer the refusal by retrying. The same refusal meets a backend that copies its browser's `Origin` header onto its own call to Canopy: a server-side call sends none, which is not judged, and forwards one only with the Environment's secret API key. A passkey needs no `Origin` header either; its origin is checked inside the signed `response`.
 
+## A front-end permission check as the only check
+
+Hiding a control with `checkPermission`, `usePermission` or `<Can>` and letting the backend accept the request it would send. The browser is the caller's to change, and its answers are held until the token is refreshed. Gate the UI there and authorize the request in the backend as well ([choosing.md](choosing.md), "What a front-end permission check is for").
+
+## Front-end permission checks re-asked or cached by the app
+
+A timer, an effect that re-checks, a cache in the app's own state, or a `fetch` to `/v1/identity/auth/me/permissions/evaluate` beside the SDK. The browser client already asks once per token for each check, batches the rest, and answers the common ones from the token itself; anything added multiplies the requests every visitor's browser makes. Read the answer from the SDK (`getPermissionState`, `usePermission`) and let it decide when to ask.
+
 ## A public client's tokens in `localStorage`
 
 A public client has no secret, which is not permission to keep its tokens where any script on the page can read them. Keep them in memory (`@canopy-io/browser` does), and get new ones after a reload with `prompt=none` ([spa.md](spa.md)). `sessionStorage` holds only the PKCE verifier for the round trip.

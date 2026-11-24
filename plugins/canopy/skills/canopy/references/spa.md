@@ -76,7 +76,8 @@ const canopy = createCanopyBrowserClient({
   issuer: "https://canopy-io.com/environments/<environment_id>",
   clientId: "<public client_id>",
   redirectUri: `${location.origin}/callback`,
-  // Ask for `permissions` so the token answers what it can with no request.
+  // Only when this client is registered with the `permissions` scope; see
+  // below. A client with the default scopes refuses it.
   scopes: ["openid", "profile", "email", "permissions"],
 });
 
@@ -91,13 +92,17 @@ editButton.hidden = !canEdit;
 exportButton.hidden = !canExport;
 ```
 
+- The `permissions` scope works only on a client registered with it: a client created with the defaults may request `openid`, `profile` and `email` alone, and refuses any other scope with `invalid_scope`, so every sign-in fails. Add `"permissions"` to `scopes` only when the OAuth client's **Scopes** (Console: Integrations → OAuth Clients, or `scopes` on the API) include it; when you cannot tell, leave `scopes` out. Every check still works without it, asked from the API instead of answered by the token.
 - A check with no `nodeId` asks whether the person holds the permission anywhere in the Environment; with one, at that node, walking its ancestors. The token's `permissions` claim answers the first and `org_permissions` a check at the session's organization (`org_id`), with no request; other checks go to `POST /v1/identity/auth/me/permissions/evaluate`.
 - `getPermissionState(permission, { nodeId })` reads an answer without asking: `loading`, `allowed`, `denied` or `error`. Show a gated control only on `allowed`. `listPermissions()` returns every key the person holds.
 - Never re-check on a timer or wrap the client in a cache of your own: it already holds each answer as long as it may. Holding answers for less multiplies the requests every visitor's browser makes.
 - These checks decide what a page shows. A permission removed meanwhile can leave a control showing until the next refresh, about 15 minutes; your API authorizes every request it receives.
+- `listOrganizations()` returns the organizations the person belongs to, by name (`id`, `name`, `slug`, `roles`), for an organization switcher; `signIn({ organization: id })` moves the session into one. Read once and held like a permission answer; `getOrganizationsState()` reads it without asking.
 - `getAccessTokenClaims()` reads the access token's claims (`permissions`, `org_id`, `org_roles`, `org_permissions`, custom claims), for display only.
 
 ## Rendering from a framework
+
+In React, use `@canopy-io/react` ([react.md](react.md)) rather than wiring this by hand. Elsewhere:
 
 `subscribe(listener)` calls `listener` when the session changes or a permission answer arrives, and returns the function that stops it. `getSnapshot()` returns `{ status, claims, error }`, the same object until something changes: `status` is `loading` until `start()` settles, then `signed-in` or `signed-out`. That is the shape `useSyncExternalStore` and Angular signals read. The client touches no browser global until it is used, so it can be created during server rendering; call `start()` only in the browser.
 
@@ -107,7 +112,7 @@ exportButton.hidden = !canExport;
 - Checks `state` against the sign-in this browser started, and removes `code` and `state` from the address bar.
 - Sends one refresh at a time, so the rotated refresh token is never presented twice from the page.
 - Runs `start()` once however often it is called, so a framework that runs its effects twice exchanges the code once.
-- Batches permission checks and holds their answers until the token changes, so a page asks once, not once per control or per render.
+- Batches permission checks and holds their answers, and the organizations list, until the token changes, so a page asks once, not once per control or per render.
 - Signs out of both halves: revokes the refresh token, then sends the browser to the end-session endpoint with the ID token as the hint. Without the second half the next `start()` signs the person straight back in.
 
 ## How long a session lasts

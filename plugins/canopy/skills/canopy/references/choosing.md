@@ -26,7 +26,7 @@ The application renders its own form and calls Canopy's identity endpoints. The 
 Canopy renders sign-in, MFA and SSO. The application is an OAuth client, of one of two types chosen at registration and never changed:
 
 - **Confidential** (the default): a backend holds the client secret and exchanges the code. Use it whenever the app has a server, including a single-page app with a backend for frontend.
-- **Public**: a single-page app with no backend, or a mobile or desktop app. No secret: it sends its `client_id` alone (`token_endpoint_auth_method: none`), and PKCE binds the code to the browser. It may hold only the `authorization_code` and `refresh_token` grants. Its session ends a fixed time after sign-in (30 days by default) however often it refreshes. A browser app uses `@canopy-io/browser` ([spa.md](spa.md)) and adds its origin to that Environment's own **Allowed web origins** (a public client calling `/oauth/token` from any other site is refused with `403 access_denied`); a native app opens the system browser and registers a custom-scheme (`com.example.app:/callback`) or loopback redirect URI.
+- **Public**: a single-page app with no backend, or a mobile or desktop app. No secret: it sends its `client_id` alone (`token_endpoint_auth_method: none`), and PKCE binds the code to the browser. It may hold only the `authorization_code` and `refresh_token` grants. Its session ends a fixed time after sign-in (30 days by default) however often it refreshes. A browser app uses `@canopy-io/browser` ([spa.md](spa.md)), or `@canopy-io/react` in React ([react.md](react.md)), and adds its origin to that Environment's own **Allowed web origins** (a public client calling `/oauth/token` from any other site is refused with `403 access_denied`); a native app opens the system browser and registers a custom-scheme (`com.example.app:/callback`) or loopback redirect URI.
 
 For either:
 
@@ -87,3 +87,7 @@ Each Environment is its own issuer: `https://<api origin>/environments/<environm
 | `cnpy_…` API key                                      | Server only. One credential per request: sending an API key and a bearer token together answers `400`. |
 | OAuth client secret (a confidential client's)         | Server only                                                                                            |
 | `pk_…` publishable key, OAuth `client_id`, issuer URL | Anywhere, including browser bundles                                                                    |
+
+## What a front-end permission check is for
+
+In a browser, `checkPermission` (`@canopy-io/browser`) and `usePermission` or `<Can>` (`@canopy-io/react`) decide what a page shows: a button the person cannot use is hidden. They never authorize. Anyone can change what their own browser runs, and an answer is held until the token is refreshed, so a permission removed meanwhile can leave a control showing for up to about 15 minutes. The backend verifies the token and checks the permission on every request ([node.md](node.md), [nestjs.md](nestjs.md)).

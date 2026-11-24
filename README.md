@@ -11,7 +11,7 @@ Canopy's plugins for [Claude Code](https://claude.com/claude-code). Canopy handl
 
 ## What is in it
 
-**`canopy`**: the agent skill for integrating Canopy into an application. It covers choosing a sign-in shape, verifying tokens, authorizing in-process with `@canopy-io/nestjs`, `@canopy-io/node`, `@canopy-io/browser`, `@canopy-io/react` or `@canopy-io/angular`, the access models, webhooks, and the mistakes to avoid. Claude loads it when a project imports `@canopy-io/*`, calls the Canopy API, or the task names Canopy.
+**`canopy`**: the agent skill for integrating Canopy into an application. It covers choosing a sign-in shape, verifying tokens, authorizing in-process with `@canopy-io/nestjs`, `@canopy-io/node`, `@canopy-io/browser`, `@canopy-io/react`, `@canopy-io/angular` or `@canopy-io/nextjs`, the access models, webhooks, and the mistakes to avoid. Claude loads it when a project imports `@canopy-io/*`, calls the Canopy API, or the task names Canopy.
 
 **`canopy-admin`**: the agent skill for administering a Canopy Account through the account MCP server: which tool does which job, telling apart the operations that read alike at the Account, Environment and organization levels, the parameters to get right, and previewing a change before it removes or replaces something.
 

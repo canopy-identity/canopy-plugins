@@ -33,7 +33,7 @@ export function Root({ children }: { children: ReactNode }) {
 - `onRedirectCallback` gets the page the sign-in started on; hand it to the app's router (React Router's `navigate`, Next.js's `router.replace`). Without it the provider replaces the address through `history`, which a router does not see.
 - `resume={false}` on a public site: a sign-in coming back is still finished, but an anonymous visitor is never sent to Canopy.
 - To use the same client outside React (a fetch wrapper, a router loader), create it with `createCanopyBrowserClient` and pass `client={canopy}` instead of the options.
-- It renders on the server and does nothing there. Next.js App Router: put the provider in a `"use client"` component; the package's modules are already marked.
+- It renders on the server and does nothing there. Next.js App Router: put the provider in a `"use client"` component; the package's modules are already marked. A Next.js app with a server of its own signs in there instead, with `@canopy-io/nextjs` ([nextjs-app.md](nextjs-app.md)): pages arrive signed in and no token reaches the browser.
 
 ## Signing in, and the person
 

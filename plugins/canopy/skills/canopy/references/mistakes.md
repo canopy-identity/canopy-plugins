@@ -108,7 +108,7 @@ Allowed web origins are each Environment's own list. A site listed only on the d
 
 ## A front-end permission check as the only check
 
-Hiding a control with `checkPermission`, `usePermission` or `<Can>` and letting the backend accept the request it would send. The browser is the caller's to change, and its answers are held until the token is refreshed. Gate the UI there and authorize the request in the backend as well ([choosing.md](choosing.md), "What a front-end permission check is for").
+Hiding a control with `checkPermission`, `usePermission`, `<Can>`, `CanopyPermissions` or `*canopyCan` and letting the backend accept the request it would send. The browser is the caller's to change, and its answers are held until the token is refreshed. Gate the UI there and authorize the request in the backend as well ([choosing.md](choosing.md), "What a front-end permission check is for").
 
 ## A scope the OAuth client was not registered for
 

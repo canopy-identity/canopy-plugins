@@ -100,7 +100,7 @@ A `cnpy_…` API key or an OAuth client secret in front-end code, or in an envir
 
 ## Mishandling the refresh token
 
-Storing a `web` refresh token in `localStorage` (it is an httpOnly cookie for a reason), parsing it, or keeping an old one after a refresh. Replaying a rotated refresh token through the Direct API revokes every session the identity holds; through Hosted Login it ends that sign-in's session. A backend proxy overwrites its stored token on every refresh.
+Storing a `web` refresh token in `localStorage` (it is an httpOnly cookie for a reason), parsing it, or keeping an old one after a refresh. Replaying a rotated refresh token through the Direct API revokes every session the identity holds; through Hosted Login it ends that sign-in's session. A backend proxy overwrites its stored token on every refresh. A confidential client's requests that refresh together within 30 seconds are forgiven and all answered with the same new refresh token, so a lock or a shared store built to serialize them is unneeded.
 
 ## A browser app's site listed on the wrong Environment
 
@@ -147,3 +147,7 @@ Mapping a dozen metadata keys onto the access token to save a request puts a few
 ## A scoped API key without the read scopes
 
 The guard and `LocalAuthorizer` read grant roots (`identity.view`) and the hierarchy (`hierarchy.view`). Missing either one shows up as `500`s on guarded routes. Add the scopes; do not catch the error.
+
+## A Next.js app signing in from the browser
+
+Using `@canopy-io/react` or `@canopy-io/browser` in a Next.js app that has a server of its own, or both beside `@canopy-io/nextjs`. The page then renders signed out on the server, a second sign-in runs in the browser, and tokens sit in browser memory. Sign in on the server with `@canopy-io/nextjs` and hand client components `clientSession` ([nextjs-app.md](nextjs-app.md)).

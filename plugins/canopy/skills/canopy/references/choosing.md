@@ -30,6 +30,7 @@ Canopy renders sign-in, MFA and SSO. The application is an OAuth client, of one 
 
 For either:
 
+- A Next.js app with a server is a confidential client through `@canopy-io/nextjs` ([nextjs-app.md](nextjs-app.md)): the proxy runs the whole round trip, and the session never reaches browser JavaScript.
 - Register a client in the Console: a `client_id`, for a confidential client a secret shown once, exact-match redirect URIs, and scopes.
 - Redirect to `/oauth/authorize` with PKCE (S256), `state` and optionally `nonce`. Canopy redirects back with a `code`; a confidential client's backend exchanges it at `/oauth/token` with the client secret, a public client with its `client_id` and the PKCE verifier.
 - The application names the language of the hosted pages and emails: pass `ui_locales` (your app's language, `ui_locales=es`) on the authorize URL. The pages have no language links. Without it they follow the person's stored language, then the browser's, then the Environment's **Default Language**. Store a person's language on the identity or invitation with `locale` so the emails sent outside a sign-in use it too.

@@ -3,7 +3,7 @@
 // assistant copies from a skill compiles against the SDK a customer installs.
 // A block that stops compiling fails CI.
 //
-// Each ```ts block is written out as its own module and compiled with
+// Each ```ts or ```tsx block is written out as its own module and compiled with
 // strict settings. A block must therefore be complete: its imports, and a
 // `declare` for anything it uses but does not define.
 //
@@ -38,14 +38,16 @@ function markdownFiles(dir) {
   });
 }
 
-const fence = /^```(ts|typescript)\s*$/;
+const fence = /^```(ts|typescript|tsx)\s*$/;
 const snippets = [];
 
 for (const file of markdownFiles(skillsDir)) {
   const lines = readFileSync(file, "utf8").split("\n");
 
   for (let i = 0; i < lines.length; i += 1) {
-    if (!fence.test(lines[i])) {
+    const opening = fence.exec(lines[i]);
+
+    if (!opening) {
       continue;
     }
 
@@ -58,6 +60,8 @@ for (const file of markdownFiles(skillsDir)) {
 
     snippets.push({
       file,
+      // A React block holds JSX, which compiles only in a .tsx module.
+      extension: opening[1] === "tsx" ? "tsx" : "ts",
       line: start + 1,
       code: lines.slice(start, end).join("\n"),
     });
@@ -78,7 +82,7 @@ mkdirSync(outDir, { recursive: true });
 const origins = new Map();
 
 snippets.forEach((snippet, index) => {
-  const name = `snippet-${String(index).padStart(3, "0")}.ts`;
+  const name = `snippet-${String(index).padStart(3, "0")}.${snippet.extension}`;
 
   writeFileSync(join(outDir, name), `${snippet.code}\n`);
   origins.set(name, snippet);
@@ -118,9 +122,10 @@ writeFileSync(
         exactOptionalPropertyTypes: false,
         noUncheckedIndexedAccess: false,
         lib: ["ES2022", "DOM"],
+        jsx: "react-jsx",
         declaration: false,
       },
-      include: ["*.ts"],
+      include: ["*.ts", "*.tsx"],
     },
     null,
     2,
@@ -138,7 +143,7 @@ try {
 
   // Point each error at the markdown line it came from, not the temp file.
   const mapped = output.replace(
-    /(?:[^\s(]*\/)?(snippet-\d{3}\.ts)\((\d+),(\d+)\)/g,
+    /(?:[^\s(]*\/)?(snippet-\d{3}\.tsx?)\((\d+),(\d+)\)/g,
     (match, name, line, column) => {
       const origin = origins.get(name);
 

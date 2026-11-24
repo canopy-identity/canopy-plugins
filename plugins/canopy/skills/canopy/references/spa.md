@@ -76,7 +76,8 @@ const canopy = createCanopyBrowserClient({
   issuer: "https://canopy-io.com/environments/<environment_id>",
   clientId: "<public client_id>",
   redirectUri: `${location.origin}/callback`,
-  // Ask for `permissions` so the token answers what it can with no request.
+  // Only when this client is registered with the `permissions` scope; see
+  // below. A client with the default scopes refuses it.
   scopes: ["openid", "profile", "email", "permissions"],
 });
 
@@ -91,6 +92,7 @@ editButton.hidden = !canEdit;
 exportButton.hidden = !canExport;
 ```
 
+- The `permissions` scope works only on a client registered with it: a client created with the defaults may request `openid`, `profile` and `email` alone, and refuses any other scope with `invalid_scope`, so every sign-in fails. Add `"permissions"` to `scopes` only when the OAuth client's **Scopes** (Console: Integrations → OAuth Clients, or `scopes` on the API) include it; when you cannot tell, leave `scopes` out. Every check still works without it, asked from the API instead of answered by the token.
 - A check with no `nodeId` asks whether the person holds the permission anywhere in the Environment; with one, at that node, walking its ancestors. The token's `permissions` claim answers the first and `org_permissions` a check at the session's organization (`org_id`), with no request; other checks go to `POST /v1/identity/auth/me/permissions/evaluate`.
 - `getPermissionState(permission, { nodeId })` reads an answer without asking: `loading`, `allowed`, `denied` or `error`. Show a gated control only on `allowed`. `listPermissions()` returns every key the person holds.
 - Never re-check on a timer or wrap the client in a cache of your own: it already holds each answer as long as it may. Holding answers for less multiplies the requests every visitor's browser makes.

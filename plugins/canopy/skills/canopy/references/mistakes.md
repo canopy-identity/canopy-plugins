@@ -110,6 +110,10 @@ Allowed web origins are each Environment's own list. A site listed only on the d
 
 Hiding a control with `checkPermission`, `usePermission` or `<Can>` and letting the backend accept the request it would send. The browser is the caller's to change, and its answers are held until the token is refreshed. Gate the UI there and authorize the request in the backend as well ([choosing.md](choosing.md), "What a front-end permission check is for").
 
+## A scope the OAuth client was not registered for
+
+`scopes: [..., "permissions"]` on a client created with the default scopes (`openid`, `profile`, `email`) makes Canopy answer the sign-in with `invalid_scope`, and nobody can sign in. Request only the scopes the client's **Scopes** list; the permission checks work without `permissions`, asked from the API.
+
 ## Front-end permission checks re-asked or cached by the app
 
 A timer, an effect that re-checks, a cache in the app's own state, or a `fetch` to `/v1/identity/auth/me/permissions/evaluate` beside the SDK. The browser client already asks once per token for each check, batches the rest, and answers the common ones from the token itself; anything added multiplies the requests every visitor's browser makes. Read the answer from the SDK (`getPermissionState`, `usePermission`) and let it decide when to ask.

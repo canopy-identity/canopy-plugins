@@ -20,8 +20,6 @@ export function Root({ children }: { children: ReactNode }) {
       clientId="<public client_id>"
       redirectUri={`${location.origin}/callback`}
       postLogoutRedirectUri={`${location.origin}/`}
-      // `permissions` lets the token answer the common checks with no request.
-      scopes={["openid", "profile", "email", "permissions"]}
       onRedirectCallback={(returnTo) => navigate(returnTo, { replace: true })}
     >
       {children}
@@ -30,6 +28,7 @@ export function Root({ children }: { children: ReactNode }) {
 }
 ```
 
+- `scopes` defaults to `openid`, `profile` and `email`. The `permissions` scope works only on a client registered with it: a client created with the defaults may request `openid`, `profile` and `email` alone, and refuses any other scope with `invalid_scope`, so every sign-in fails. Add `"permissions"` to `scopes` only when the OAuth client's **Scopes** (Console: Integrations → OAuth Clients, or `scopes` on the API) include it; when you cannot tell, leave `scopes` out. Every check still works without it, asked from the API instead of answered by the token.
 - The provider creates one client and starts it once: it finishes a sign-in Canopy has just answered, or resumes the session silently (`prompt=none`) and comes back to the page. StrictMode's double effect is safe; the runs are shared. Never call `start()` yourself beside it.
 - `onRedirectCallback` gets the page the sign-in started on; hand it to the app's router (React Router's `navigate`, Next.js's `router.replace`). Without it the provider replaces the address through `history`, which a router does not see.
 - `resume={false}` on a public site: a sign-in coming back is still finished, but an anonymous visitor is never sent to Canopy.

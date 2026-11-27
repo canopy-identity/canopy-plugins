@@ -32,7 +32,7 @@
     "@canopy-io/browser": "0.5.0",
     "@canopy-io/nestjs": "0.9.5",
     "@canopy-io/nextjs": "0.1.0",
-    "@canopy-io/node": "0.26.0",
+    "@canopy-io/node": "0.26.2",
     "@canopy-io/react": "0.1.0",
     "@nestjs/common": "11.2.7",
     "@nestjs/config": "4.0.4",

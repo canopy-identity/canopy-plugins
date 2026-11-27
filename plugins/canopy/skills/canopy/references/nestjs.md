@@ -175,7 +175,7 @@ export class DealsController {
 
 ### Reading a custom claim
 
-An Environment can map facts of its own onto the token (Console: Tenant → Authentication → Custom claims): a `plan` from the identity's metadata, say. `CanopyTokenRequest<TCustom>` types the request `CanopyTokenGuard` attached the claims to, with the custom claims named and optional: one that is not stored, or did not fit (`custom_claims_overflow`), is absent, which is "not set", never a pass.
+An Environment can map facts of its own onto the token (Console: Tenant → Tokens & Keys → Custom claims): a `plan` from the identity's metadata, say. `CanopyTokenRequest<TCustom>` types the request `CanopyTokenGuard` attached the claims to, with the custom claims named and optional: one that is not stored, or did not fit (`custom_claims_overflow`), is absent, which is "not set", never a pass.
 
 ```ts
 import {

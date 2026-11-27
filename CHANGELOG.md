@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.1
+
+The skill follows the Developer Console's new layout. Token lifetimes, custom claims and the issuer and signing keys are on **Tokens & Keys**, beside **Authentication**, and an Environment's **Allowed web origins** are on **Authentication → Allowed URLs**. `references/spa.md`, `node.md`, `nestjs.md` and `choosing.md` send a developer there. The skill's code compiles against `@canopy-io/node` 0.26.2.
+
 ## 0.9.0
 
 The skill follows `@canopy-io/nextjs` 0.1.0. A new reference, `references/nextjs-app.md`, teaches a Next.js App Router app with a server to sign in there as a confidential client: the server-only environment variables, `canopyProxy` in `proxy.ts` (or `middleware.ts` with `runtime: "nodejs"` on 15.5) with `protect`, `auth()` and `can()` in server components and server actions (authorizing every action, not only the page), `accessToken` for the app's own API, and `clientSession` with `CanopySessionProvider` for client components. `SKILL.md` routes a Next.js app there and lists the package, `choosing.md` and `react.md` point a Next.js app with a server to it, and `mistakes.md` names signing in from the browser in such an app. Rule 7 and `mistakes.md` now say a confidential client's requests that refresh together within 30 seconds are all answered with the same refresh token, so a backend needs no lock for them. The skill's code compiles against `@canopy-io/nextjs` 0.1.0 and Next.js 16.

@@ -5,7 +5,7 @@ A single-page app with no server of its own signs in through Hosted Login as a *
 ## Set up, once per Environment
 
 1. Register the OAuth client with **Client Type** set to **Public** (Console: Integrations → OAuth Clients, or `POST /api/v1/oauth-clients` with `"client_type": "public"`). The type cannot change later. Register the app's callback URL exactly, and the page `signOut()` lands on as a post-logout redirect URL.
-2. Add the app's origin, scheme and host only (`https://app.example.com`), to that Environment's **Allowed web origins** (Console: Tenant → Authentication → Sign-in methods, the Environment's row). The list is each Environment's own: a site listed on another Environment does not count, so list the local dev origin on the development Environment and the production origin on the production one. Without it every sign-in fails: with `CanopyConnectionError` when no Environment lists the site (the browser cannot read the answer), or with `CanopyAuthError` code `access_denied` (status `403` from the token endpoint) when another Environment does.
+2. Add the app's origin, scheme and host only (`https://app.example.com`), to that Environment's **Allowed web origins** (Console: Tenant → Authentication → Allowed URLs, the Environment's row). The list is each Environment's own: a site listed on another Environment does not count, so list the local dev origin on the development Environment and the production origin on the production one. Without it every sign-in fails: with `CanopyConnectionError` when no Environment lists the site (the browser cannot read the answer), or with `CanopyAuthError` code `access_denied` (status `403` from the token endpoint) when another Environment does.
 
 ## The whole integration
 
@@ -17,7 +17,7 @@ declare const signOutButton: HTMLButtonElement;
 declare function showSignedIn(name: string | undefined): void;
 declare function showSignedOut(): void;
 
-// The issuer is the Environment's (Console: Authentication → Signing keys).
+// The issuer is the Environment's (Console: Tenant → Tokens & Keys → Signing keys).
 const canopy = createCanopyBrowserClient({
   issuer: "https://canopy-io.com/environments/<environment_id>",
   clientId: "<public client_id>",
@@ -117,7 +117,7 @@ In React, use `@canopy-io/react` ([react.md](react.md)), and in Angular `@canopy
 
 ## How long a session lasts
 
-A public client's session ends a fixed time after sign-in, however often it refreshes: 30 days by default, 1 to 90 per Environment (**Public app session lifetime**, Console: Tenant → Authentication → Tokens). Then a refresh is refused, `getAccessToken()` answers `null` and `onSessionEnd` fires: show the sign-in button. A refresh replayed from another browser ends that sign-in's session; the person's other sessions keep working.
+A public client's session ends a fixed time after sign-in, however often it refreshes: 30 days by default, 1 to 90 per Environment (**Public app session lifetime**, Console: Tenant → Tokens & Keys → Tokens). Then a refresh is refused, `getAccessToken()` answers `null` and `onSessionEnd` fires: show the sign-in button. A refresh replayed from another browser ends that sign-in's session; the person's other sessions keep working.
 
 ## Errors
 
